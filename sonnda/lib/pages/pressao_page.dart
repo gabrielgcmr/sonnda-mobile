@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/medicao_pressao.dart';
 
@@ -198,7 +199,16 @@ class _PressaoPageState extends State<PressaoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Media da Pressao Arterial')),
+      appBar: AppBar(
+        title: const Text('Media da Pressao Arterial'),
+        actions: [
+          IconButton(
+            onPressed: () => Supabase.instance.client.auth.signOut(),
+            tooltip: 'Sair',
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
