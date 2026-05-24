@@ -2,12 +2,20 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/medicao_pressao.dart';
+import '../navigation/app_routes.dart';
+import '../widgets/app_drawer.dart';
 
 class PressaoPage extends StatefulWidget {
-  const PressaoPage({super.key});
+  const PressaoPage({
+    super.key,
+    required this.isDarkMode,
+    required this.onDarkModeChanged,
+  });
+
+  final bool isDarkMode;
+  final ValueChanged<bool> onDarkModeChanged;
 
   @override
   State<PressaoPage> createState() => _PressaoPageState();
@@ -201,13 +209,11 @@ class _PressaoPageState extends State<PressaoPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Media da Pressao Arterial'),
-        actions: [
-          IconButton(
-            onPressed: () => Supabase.instance.client.auth.signOut(),
-            tooltip: 'Sair',
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+      ),
+      drawer: AppDrawer(
+        currentRoute: AppRoutes.pressao,
+        isDarkMode: widget.isDarkMode,
+        onDarkModeChanged: widget.onDarkModeChanged,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

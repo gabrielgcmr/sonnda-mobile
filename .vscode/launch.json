@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "name": "Sonnda",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "sonnda",
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "Sonnda (Chrome)",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "sonnda",
+      "program": "lib/main.dart",
+      "deviceId": "chrome"
+    },
+    {
+      "name": "Sonnda (Profile)",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "sonnda",
+      "program": "lib/main.dart",
+      "flutterMode": "profile"
+    }
+  ]
+}
