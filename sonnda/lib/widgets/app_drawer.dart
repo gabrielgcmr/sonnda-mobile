@@ -38,10 +38,9 @@ class AppDrawer extends StatelessWidget {
       return;
     }
 
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      route,
-      (route) => route.isFirst,
-    );
+    Navigator.of(
+      context,
+    ).pushNamedAndRemoveUntil(route, (route) => route.isFirst);
   }
 
   void _openProfile(BuildContext context) {
@@ -51,10 +50,9 @@ class AppDrawer extends StatelessWidget {
       return;
     }
 
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      AppRoutes.profile,
-      (route) => route.isFirst,
-    );
+    Navigator.of(
+      context,
+    ).pushNamedAndRemoveUntil(AppRoutes.profile, (route) => route.isFirst);
   }
 
   @override
@@ -75,8 +73,8 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.search_outlined),
-              title: const Text('Buscar paciente'),
+              leading: const Icon(Icons.people_outline),
+              title: const Text('Pacientes'),
               selected: currentRoute == AppRoutes.patients,
               onTap: () => _openRoute(context, AppRoutes.patients),
             ),

@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'navigation/app_routes.dart';
 import 'pages/auth_page.dart';
+import 'pages/patient_create_page.dart';
 import 'pages/patient_search_page.dart';
 import 'pages/pressao_page.dart';
 import 'pages/profile_page.dart';
@@ -78,18 +79,22 @@ class _SonndaAppState extends State<SonndaApp> {
       settings: settings,
       builder: (context) {
         return switch (settings.name) {
+          AppRoutes.patientCreate => PatientCreatePage(
+            isDarkMode: _themeMode == ThemeMode.dark,
+            onDarkModeChanged: _setDarkMode,
+          ),
           AppRoutes.pressao => PressaoPage(
-              isDarkMode: _themeMode == ThemeMode.dark,
-              onDarkModeChanged: _setDarkMode,
-            ),
+            isDarkMode: _themeMode == ThemeMode.dark,
+            onDarkModeChanged: _setDarkMode,
+          ),
           AppRoutes.profile => ProfilePage(
-              isDarkMode: _themeMode == ThemeMode.dark,
-              onDarkModeChanged: _setDarkMode,
-            ),
+            isDarkMode: _themeMode == ThemeMode.dark,
+            onDarkModeChanged: _setDarkMode,
+          ),
           _ => PatientSearchPage(
-              isDarkMode: _themeMode == ThemeMode.dark,
-              onDarkModeChanged: _setDarkMode,
-            ),
+            isDarkMode: _themeMode == ThemeMode.dark,
+            onDarkModeChanged: _setDarkMode,
+          ),
         };
       },
     );

@@ -135,11 +135,21 @@ class _PatientSearchPageState extends State<PatientSearchPage> {
     }).toList();
   }
 
+  Future<void> _openCreatePatient() async {
+    final created = await Navigator.of(
+      context,
+    ).pushNamed<bool>(AppRoutes.patientCreate);
+
+    if (created == true && mounted) {
+      _refreshPatients();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buscar paciente'),
+        title: const Text('Pacientes'),
         actions: [
           IconButton(
             onPressed: _refreshPatients,
@@ -147,6 +157,11 @@ class _PatientSearchPageState extends State<PatientSearchPage> {
             icon: const Icon(Icons.refresh),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _openCreatePatient,
+        icon: const Icon(Icons.person_add_alt_1_outlined),
+        label: const Text('Adicionar'),
       ),
       drawer: AppDrawer(
         currentRoute: AppRoutes.patients,
@@ -211,6 +226,13 @@ class _PatientSearchPageState extends State<PatientSearchPage> {
                       subtitle: _query.isEmpty
                           ? 'Pacientes proprios ou compartilhados aparecerao aqui.'
                           : 'Tente buscar por outro dado do paciente.',
+                      action: _query.isEmpty
+                          ? FilledButton.icon(
+                              onPressed: _openCreatePatient,
+                              icon: const Icon(Icons.person_add_alt_1_outlined),
+                              label: const Text('Adicionar paciente'),
+                            )
+                          : null,
                     );
                   }
 
@@ -302,11 +324,7 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              size: 48,
-              color: Theme.of(context).colorScheme.outline,
-            ),
+            Icon(icon, size: 48, color: Theme.of(context).colorScheme.outline),
             const SizedBox(height: 12),
             Text(
               title,
@@ -319,10 +337,7 @@ class _EmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            if (action != null) ...[
-              const SizedBox(height: 16),
-              action!,
-            ],
+            if (action != null) ...[const SizedBox(height: 16), action!],
           ],
         ),
       ),
