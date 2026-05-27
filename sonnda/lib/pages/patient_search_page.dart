@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../navigation/app_routes.dart';
+import 'patient_create_page.dart';
 import '../widgets/app_drawer.dart';
 
 class PatientSearchPage extends StatefulWidget {
@@ -136,12 +137,30 @@ class _PatientSearchPageState extends State<PatientSearchPage> {
   }
 
   Future<void> _openCreatePatient() async {
-    final created = await Navigator.of(
-      context,
-    ).pushNamed<bool>(AppRoutes.patientCreate);
+    try {
+      final created = await Navigator.of(context).push<bool>(
+        MaterialPageRoute(
+          builder: (_) => PatientCreatePage(
+            isDarkMode: widget.isDarkMode,
+            onDarkModeChanged: widget.onDarkModeChanged,
+          ),
+        ),
+      );
 
-    if (created == true && mounted) {
-      _refreshPatients();
+      if (created == true && mounted) {
+        _refreshPatients();
+      }
+    } on Object catch (error, stackTrace) {
+      debugPrint('Erro ao abrir cadastro de paciente: $error');
+      debugPrintStack(stackTrace: stackTrace);
+
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Nao foi possivel abrir o cadastro: $error')),
+      );
     }
   }
 
