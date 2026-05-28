@@ -24,10 +24,10 @@ class _PatientCreatePageState extends State<PatientCreatePage> {
   final _cpfController = TextEditingController();
   final _cnsController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _raceController = TextEditingController();
 
   DateTime? _birthDate;
   String? _gender;
+  String? _race;
   String _relationType = 'guardian';
   bool _isSaving = false;
 
@@ -39,7 +39,6 @@ class _PatientCreatePageState extends State<PatientCreatePage> {
     _cpfController.dispose();
     _cnsController.dispose();
     _phoneController.dispose();
-    _raceController.dispose();
     super.dispose();
   }
 
@@ -106,8 +105,7 @@ class _PatientCreatePageState extends State<PatientCreatePage> {
           'cns': _onlyDigits(_cnsController.text),
         if (_birthDate != null) 'birth_date': _formatDate(_birthDate!),
         if (_gender != null) 'gender': _gender,
-        if (_cleanText(_raceController.text).isNotEmpty)
-          'race': _cleanText(_raceController.text),
+        if (_race != null) 'race': _race,
         if (_cleanText(_phoneController.text).isNotEmpty)
           'phone': _cleanText(_phoneController.text),
       };
@@ -298,14 +296,25 @@ class _PatientCreatePageState extends State<PatientCreatePage> {
                       },
               ),
               const SizedBox(height: 12),
-              TextFormField(
-                controller: _raceController,
-                textCapitalization: TextCapitalization.words,
+              DropdownButtonFormField<String>(
+                initialValue: _race,
                 decoration: const InputDecoration(
                   labelText: 'Raca/cor',
                   prefixIcon: Icon(Icons.palette_outlined),
                   border: OutlineInputBorder(),
                 ),
+                items: const [
+                  DropdownMenuItem(value: 'white', child: Text('Branco')),
+                  DropdownMenuItem(value: 'black', child: Text('Preto')),
+                  DropdownMenuItem(value: 'other', child: Text('Outro')),
+                ],
+                onChanged: _isSaving
+                    ? null
+                    : (value) {
+                        setState(() {
+                          _race = value;
+                        });
+                      },
               ),
               const SizedBox(height: 12),
               TextFormField(
