@@ -160,10 +160,28 @@ class _PatientCreatePageState extends State<PatientCreatePage> {
     }
   }
 
+  void _goBack() {
+    final navigator = Navigator.of(context);
+
+    if (navigator.canPop()) {
+      navigator.pop(false);
+      return;
+    }
+
+    navigator.pushReplacementNamed(AppRoutes.patients);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Adicionar paciente')),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: _goBack,
+          tooltip: 'Voltar',
+          icon: const Icon(Icons.arrow_back),
+        ),
+        title: const Text('Adicionar paciente'),
+      ),
       drawer: AppDrawer(
         currentRoute: AppRoutes.patients,
         isDarkMode: widget.isDarkMode,
