@@ -62,6 +62,7 @@ class _PatientCreatePageState extends State<PatientCreatePage> {
     final now = DateTime.now();
     final selected = await showDatePicker(
       context: context,
+      locale: const Locale('pt', 'BR'),
       initialDate: _birthDate ?? DateTime(now.year - 18, now.month, now.day),
       firstDate: DateTime(1900),
       lastDate: now,
@@ -103,7 +104,7 @@ class _PatientCreatePageState extends State<PatientCreatePage> {
           'cpf': _onlyDigits(_cpfController.text),
         if (_cleanText(_cnsController.text).isNotEmpty)
           'cns': _onlyDigits(_cnsController.text),
-        if (_birthDate != null) 'birth_date': _formatDate(_birthDate!),
+        if (_birthDate != null) 'birth_date': _formatStorageDate(_birthDate!),
         if (_gender != null) 'gender': _gender,
         if (_race != null) 'race': _race,
         if (_cleanText(_phoneController.text).isNotEmpty)
@@ -270,7 +271,7 @@ class _PatientCreatePageState extends State<PatientCreatePage> {
                   child: Text(
                     _birthDate == null
                         ? 'Nao informado'
-                        : _formatDate(_birthDate!),
+                        : _formatDisplayDate(_birthDate!),
                   ),
                 ),
               ),
@@ -363,9 +364,16 @@ String _onlyDigits(Object? value) {
   return _cleanText(value).replaceAll(RegExp(r'\D'), '');
 }
 
-String _formatDate(DateTime date) {
+String _formatStorageDate(DateTime date) {
   final month = date.month.toString().padLeft(2, '0');
   final day = date.day.toString().padLeft(2, '0');
 
   return '${date.year}-$month-$day';
+}
+
+String _formatDisplayDate(DateTime date) {
+  final day = date.day.toString().padLeft(2, '0');
+  final month = date.month.toString().padLeft(2, '0');
+
+  return '$day/$month/${date.year}';
 }
